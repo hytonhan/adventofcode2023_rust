@@ -12,11 +12,42 @@ pub fn part_one(input: &str) -> Option<u32> {
     let first_line = input.lines().next().unwrap();
     let width: isize = (first_line.len() + 1) as isize;
 
-    (0..map.len())
-        .filter(|x| {
-            map.get(*x).unwrap() != &'.' && 
-            map.get(*x).unwrap().is_ascii_digit()
-        });
+    // let result = (0..map.len())
+    //     .filter(|x| {
+    //         map.get(*x).unwrap() != &'.'
+    //             && map.get(*x).unwrap().is_ascii_digit()
+    //             && map
+    //                 .get((*x).wrapping_sub(1))
+    //                 .unwrap_or(&'0')
+    //                 .is_ascii_digit()
+    //     })
+    //     .map(|x| {
+    //         let mut length: isize = 0;
+    //         for j in 1..10 {
+    //             if map[x + j].is_ascii_digit() == false {
+    //                 length = j as isize;
+    //                 break;
+    //             }
+    //         }
+    //         let foo = (x..x + (length as usize))
+    //             .map(|x| map[x])
+    //             .collect::<String>();
+    //         (x, length, foo)
+    //     })
+    //     .filter(|(x, length, foo)| {
+    //         (-width - 1..-width + length + 1)
+    //             .chain([-1, *length])
+    //             .chain(width - 1..width + length + 1)
+    //             .any(|i| {
+    //                 map.get(x.wrapping_add(i as usize))
+    //                     .unwrap_or(&'0')
+    //                     .is_ascii_punctuation()
+    //                     && map.get(x.wrapping_add(i as usize)).unwrap_or(&'0') != &'.'
+    //             })
+    //     })
+    //     .map(|(_x, _l, f)| f.parse::<u32>().unwrap())
+    //     .sum::<u32>();
+    // Some(result)
 
     let mut total_sum: u32 = 0;
     for i in 0..map.len() {
@@ -40,11 +71,13 @@ pub fn part_one(input: &str) -> Option<u32> {
             .map(|x| map[x])
             .collect::<String>();
 
-        let check: bool = (-width-2..-width + length)
+        let check: bool = (-width - 1..-width + length + 1)
             .chain([-1, length])
-            .chain(width..width + length+2)
+            .chain(width - 1..width + length + 1)
             .any(|x| {
-                map.get(i.wrapping_add(x as usize)).unwrap_or(&'0').is_ascii_punctuation()
+                map.get(i.wrapping_add(x as usize))
+                    .unwrap_or(&'0')
+                    .is_ascii_punctuation()
                     && map.get(i.wrapping_add(x as usize)).unwrap_or(&'0') != &'.'
             });
         if check {
