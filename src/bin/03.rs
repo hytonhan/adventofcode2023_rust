@@ -1,11 +1,4 @@
-use std::collections::HashMap;
-
 advent_of_code::solution!(3);
-
-struct PartNumber {
-    number: u32,
-    index: u32,
-}
 
 pub fn part_one(input: &str) -> Option<u32> {
     let map = input.chars().collect::<Vec<char>>();
@@ -88,7 +81,46 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    None
+    
+    let map = input.chars().collect::<Vec<char>>();
+    let first_line = input.lines().next().unwrap();
+    let width = first_line.len() + 1;
+    
+    let mut total_sum: u32 = 0;
+    for i in 0..map.len() {
+        if map[i] != '*' {
+            continue;
+        }
+        // let mut length: isize = 0;
+        // for j in 1..10 {
+        //     if map[i + j].is_ascii_digit() == false {
+        //         length = j as isize;
+        //         break;
+        //     }
+        // }
+        // let foo = (i..i + (length as usize))
+        //     .map(|x| map[x])
+        //     .collect::<String>();
+
+        let top = {
+            let top_left = map.get(i.wrapping_sub(width+1)).unwrap_or(&'.').is_ascii_digit();
+            let top_center = map.get(i.wrapping_sub(width)).unwrap_or(&'.').is_ascii_digit();
+            let top_right = map.get(i.wrapping_sub(width-1)).unwrap_or(&'.').is_ascii_digit();
+            true
+        };
+        //     .chain([-1, 1])
+        //     .chain(width - 1..width + 1)
+        //     .any(|x| {
+        //         map.get(i.wrapping_add(x as usize))
+        //             .unwrap_or(&'0')
+        //             .is_ascii_punctuation()
+        //             && map.get(i.wrapping_add(x as usize)).unwrap_or(&'0') != &'.'
+        //     });
+        // if check {
+        //     total_sum += foo.parse::<u32>().unwrap();
+        // }
+    }
+    Some(total_sum)
 }
 
 #[cfg(test)]
