@@ -12,6 +12,12 @@ pub fn part_one(input: &str) -> Option<u32> {
     let first_line = input.lines().next().unwrap();
     let width: isize = (first_line.len() + 1) as isize;
 
+    (0..map.len())
+        .filter(|x| {
+            map.get(*x).unwrap() != &'.' && 
+            map.get(*x).unwrap().is_ascii_digit()
+        });
+
     let mut total_sum: u32 = 0;
     for i in 0..map.len() {
         if map[i] == '.' {
